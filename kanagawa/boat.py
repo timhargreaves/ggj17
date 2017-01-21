@@ -22,11 +22,13 @@ class Boat:
     def move(self,events,screenMaxX,screenMaxY):
         # Input Handling
         for event in events:
-            if event == userevents.ROTCOUNTERCWEVENT:
+            print(event)
+            print(userevents.ROTCOUNTERCWEVENT)
+            if event.type == userevents.ROTCOUNTERCWEVENT:
                 self.deltaRot += -0.75
-            if event == userevents.ROTCWEVENT:
+            if event.type == userevents.ROTCWEVENT:
                 self.deltaRot += 0.75
-            if event == userevents.MOVEFORWARDEVENT:
+            if event.type == userevents.MOVEFORWARDEVENT:
                 doNothing = 1
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
