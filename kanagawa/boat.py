@@ -21,19 +21,22 @@ class Boat:
     def move(self,event,screenMaxX,screenMaxY):
         # Input Handling
         if event.type == pygame.KEYDOWN:
+            print("boat.move")
+            print(event)
+
             if event.key == pygame.K_LEFT:
-                self.deltaRot = -5
+                self.deltaRot += -0.75
             elif event.key == pygame.K_RIGHT:
-                self.deltaRot = 5
-            elif event.key == pygame.K_UP:
-                self.deltaY = -5
-            elif event.key == pygame.K_DOWN:
-                self.deltaY = 5
-        if event.type == pygame.KEYUP:
-            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-                self.deltaX = 0
-            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-                self.deltaY = 0
+                self.deltaRot += 0.75
+#            elif event.key == pygame.K_UP:
+#                self.deltaY = -5
+#            elif event.key == pygame.K_DOWN:
+#                self.deltaY = 5
+#        if event.type == pygame.KEYUP:
+#            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+#                self.deltaX = 0
+#            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+#                self.deltaY = 0
 
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
@@ -46,9 +49,10 @@ class Boat:
             self.posY += self.deltaY
 
         # Rotation
-        falloff = 0.5
-        self.deltaRot *= 0.9
+        falloff = 0.9
+        self.deltaRot *= falloff
         if self.deltaRot < 0.01 and self.deltaRot > -0.01:
             self.deltaRot = 0
         if self.deltaRot != 0:
             self.rot += self.deltaRot
+            print(self.rot)

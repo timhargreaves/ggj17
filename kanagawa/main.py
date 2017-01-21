@@ -38,7 +38,7 @@ def game_loop():
             if event.type == pygame.QUIT:
                 gameExit = True
 
-            print(event)
+#            print(event)
 
         thisBoat.move(event,display_width,display_height)
 
