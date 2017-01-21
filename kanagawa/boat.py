@@ -4,7 +4,7 @@ import math
 
 class Boat:
     # Shared
-    boatImage = pygame.image.load('assets/boat.png')
+    imageAsset = pygame.image.load('assets/boat.png')
     imageWidth = 50
     imageHeight = 100
 
@@ -18,7 +18,7 @@ class Boat:
         self.deltaRot = 0
 
     def draw(self,gameDisplay):
-        gameDisplay.blit(pygame.transform.rotate(self.boatImage,self.rot), (self.posX,self.posY))
+        gameDisplay.blit(pygame.transform.rotate(self.imageAsset,self.rot), (self.posX,self.posY))
 
     def moveForward(self):
         radAngle = math.radians(self.rot)
