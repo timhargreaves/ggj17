@@ -47,7 +47,7 @@ def game_loop():
 #            print(event)
         inputHandler.handleInput(events)
 
-        #fish.update()
+        fish.update()
 
         playerBoat.move(pygame.event.get(),display_width,display_height)
 
@@ -56,7 +56,7 @@ def game_loop():
 
         # Draw Dynamic Elements
         playerBoat.draw(gameDisplay)
-        fish.draw(gameDisplay) 
+        fish.draw(gameDisplay)
 
         # System Update
         pygame.display.update()
