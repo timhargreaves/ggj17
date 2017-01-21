@@ -1,5 +1,6 @@
 import pygame
 import boat
+import fish
 import inputhandler
 
 
@@ -23,8 +24,11 @@ def background(x,y):
 
 
 
-global thisBoat
-thisBoat = boat.Boat()
+global playerBoat
+playerBoat = boat.Boat()
+
+global fish
+fish = fish.Fish()
 
 global inputHandler
 inputHandler = inputhandler.InputHandler()
@@ -42,14 +46,17 @@ def game_loop():
 
 #            print(event)
         inputHandler.handleInput(events)
-        
-        thisBoat.move(pygame.event.get(),display_width,display_height)
+
+        #fish.update()
+
+        playerBoat.move(pygame.event.get(),display_width,display_height)
 
         # Draw Static Elements
         background(0,0)
 
         # Draw Dynamic Elements
-        thisBoat.draw(gameDisplay)
+        playerBoat.draw(gameDisplay)
+        fish.draw(gameDisplay) 
 
         # System Update
         pygame.display.update()
