@@ -25,6 +25,8 @@ def boat(x,y):
 
 boatx = (display_width * 0.5)
 boaty = (display_height * 0.5)
+boatx_delta = 0
+boaty_delta = 0
 
 # Main Game Loop
 while not crashed:
@@ -34,6 +36,20 @@ while not crashed:
             crashed = True
 
         print(event)
+
+    # Input Handling
+    if event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_LEFT:
+            boatx_delta = -5
+        elif event.key == pygame.K_RIGHT:
+            boatx_delta = 5
+    if event.type == pygame.KEYUP:
+        if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+            boatx_delta = 0
+
+    # Update Elements
+
+    boatx += boatx_delta
 
     # Draw Static Elements
     background(0,0)
