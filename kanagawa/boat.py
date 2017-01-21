@@ -25,21 +25,23 @@ class Boat:
         sin = math.sin(radAngle)
         cos = math.cos(radAngle)
 
-        referenceVector = pygame.math.Vector2(0, 1)
+        referenceVector = pygame.math.Vector2(-1, 0)
         forwardVector = pygame.math.Vector2(referenceVector.x * cos - referenceVector.y * sin, referenceVector.x * cos + referenceVector.y * cos)
         self.deltaX = forwardVector.x
         self.deltaY = forwardVector.y
-        print(forwardVector.x)
-        print(forwardVector.y)
+
+        #print("x: " + str(self.posX) + " y: " + str(self.posY))
+        #print("dx: " + str(forwardVector.x) + " dy: " + str(forwardVector.y))
+
 
     def move(self,events,screenMaxX,screenMaxY):
         # Input Handling
         shouldMoveForward = False
         for event in events:
-            if event.type == userevents.ROTCOUNTERCWEVENT:
-                self.deltaRot += -0.75
             if event.type == userevents.ROTCWEVENT:
-                self.deltaRot += 0.75
+                self.deltaRot += 0.25
+            if event.type == userevents.ROTCOUNTERCWEVENT:
+                self.deltaRot += -0.25
             if event.type == userevents.MOVEFORWARDEVENT:
                 shouldMoveForward = True
         # Collision Detection - Window borders
@@ -63,5 +65,10 @@ class Boat:
             self.deltaRot = 0
         if self.deltaRot != 0:
             self.rot += self.deltaRot
+            if self.rot > 360:
+                self.rot -= 360
+            if self.rot < 0:
+                self.rot += 360
+            print(self.rot)
         if shouldMoveForward:
             self.moveForward()
