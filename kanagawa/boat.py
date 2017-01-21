@@ -8,12 +8,14 @@ class Boat:
 
     # Unique
     def __init__(self):
-        self.posX = 0
-        self.posY = 0
+        self.posX = 100
+        self.posY = 100
         self.deltaX = 0
         self.deltaY = 0
+
     def draw(self,gameDisplay):
         gameDisplay.blit(self.boatImage, (self.posX,self.posY))
+
     def move(self,event,screenMaxX,screenMaxY):
         # Input Handling
         if event.type == pygame.KEYDOWN:
@@ -32,11 +34,11 @@ class Boat:
                 self.deltaY = 0
 
         # Collision Detection - Window borders
-        if self.deltaX < 0 and boatx + self.deltaX < 0:
-            boatx += self.deltaX
-        if self.deltaY < 0 and boaty + self.deltaY < 0:
-            boaty += self.deltaY
-        if self.deltaX > 0 and boatx + boatWidth + self.deltaX < screenMaxX:
-            boatx += self.deltaX
-        if self.deltaY > 0 and boaty + boatHeight + self.deltaY < screenMaxY:
-            boaty += self.deltaY
+        if self.deltaX < 0 and self.posX + self.deltaX > 0:
+            self.posX += self.deltaX
+        if self.deltaY < 0 and self.posY + self.deltaY > 0:
+            self.posY += self.deltaY
+        if self.deltaX > 0 and self.posX + self.imageWidth + self.deltaX < screenMaxX:
+            self.posX += self.deltaX
+        if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
+            self.posY += self.deltaY
