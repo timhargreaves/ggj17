@@ -14,14 +14,14 @@ class InputHandler:
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
-                    self.cwRot = True
-                elif event.key == pygame.K_RIGHT:
                     self.countercwRot = True
+                elif event.key == pygame.K_RIGHT:
+                    self.cwRot = True
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
-                    self.cwRot = False
-                elif event.key == pygame.K_RIGHT:
                     self.countercwRot = False
+                elif event.key == pygame.K_RIGHT:
+                    self.cwRot = False
 
         if self.countercwRot:
             userEvent = pygame.event.Event(userevents.ROTCOUNTERCWEVENT)
