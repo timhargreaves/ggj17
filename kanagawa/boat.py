@@ -12,17 +12,20 @@ class Boat:
         self.posY = 100
         self.deltaX = 0
         self.deltaY = 0
+        self.rot = 0
+        self.rotDelta = 0
 
     def draw(self,gameDisplay):
-        gameDisplay.blit(self.boatImage, (self.posX,self.posY))
+
+        gameDisplay.blit(pygame.transform.rotate(self.boatImage,self.rot), (self.posX,self.posY))
 
     def move(self,event,screenMaxX,screenMaxY):
         # Input Handling
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                self.deltaX = -5
+                self.rotDelta = -5
             elif event.key == pygame.K_RIGHT:
-                self.deltaX = 5
+                self.rotDelta = 5
             elif event.key == pygame.K_UP:
                 self.deltaY = -5
             elif event.key == pygame.K_DOWN:
@@ -42,3 +45,7 @@ class Boat:
             self.posX += self.deltaX
         if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
             self.posY += self.deltaY
+
+        # Rotation
+        if self.rotDelta != 0:
+            self.rot += self.rotDelta
