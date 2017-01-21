@@ -1,5 +1,6 @@
 import pygame
 
+# System Vars and Setup
 pygame.init()
 
 display_width = 800
@@ -11,6 +12,8 @@ pygame.display.set_caption('Main Window')
 clock = pygame.time.Clock()
 
 crashed = False
+
+# Asset Vars and Setup
 backgroundImage = pygame.image.load('assets/background.png')
 boatImage = pygame.image.load('assets/boat.png')
 
@@ -23,21 +26,26 @@ def boat(x,y):
 boatx = (display_width * 0.5)
 boaty = (display_height * 0.5)
 
-
+# Main Game Loop
 while not crashed:
+    # End State
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             crashed = True
 
         print(event)
 
+    # Draw Static Elements
     background(0,0)
 
+    # Draw Dynamic Elements
     boat(boatx,boaty)
 
+    # System Update
     pygame.display.update()
     clock.tick(60)
 
 
+# System Quit
 pygame.quit()
 quit()
