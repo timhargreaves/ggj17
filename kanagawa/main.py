@@ -1,6 +1,7 @@
 import pygame
 import boat
 import fish
+import net
 import inputhandler
 
 
@@ -24,19 +25,24 @@ def background(x,y):
 
 
 
-global playerBoat
 playerBoat = boat.Boat()
 
-global fish
+
 fish = fish.Fish()
+
+leftNet = net.Net(-100,-100)
+rightNet = net.Net(-100,-100)
+
 
 global inputHandler
 inputHandler = inputhandler.InputHandler()
 
 # Main Game Loop
 def game_loop():
-    gameExit = False
+    global playerBoat, fish, leftNet, rightNet
+    global inputHandler
 
+    gameExit = False
     while not gameExit:
         events = pygame.event.get()
         # End State
@@ -50,6 +56,14 @@ def game_loop():
         fish.update()
 
         playerBoat.move(pygame.event.get(),display_width,display_height)
+
+        events = pygame.event.get()
+        for event in events:
+            if event.type == userevents.SPAWNLEFTNETEVENT:
+                leftNet = net.Net(playerBoat.posX, playerBoat.posY)
+
+        if leftNet is not None:
+            leftNet.update()
 
         # Draw Static Elements
         background(0,0)
