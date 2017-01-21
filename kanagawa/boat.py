@@ -1,5 +1,6 @@
 import pygame
 import userevents
+import math
 
 class Boat:
     # Shared
@@ -19,17 +20,28 @@ class Boat:
     def draw(self,gameDisplay):
         gameDisplay.blit(pygame.transform.rotate(self.boatImage,self.rot), (self.posX,self.posY))
 
+    def moveForward(self):
+        radAngle = math.radians(self.rot)
+        sin = math.sin(radAngle)
+        cos = math.cos(radAngle)
+
+        referenceVector = pygame.math.Vector2(0, 1)
+        forwardVector = pygame.math.Vector2(referenceVector.x * cos - referenceVector.y * sin, referenceVector.x * cos + referenceVector.y * cos)
+        self.deltaX = forwardVector.x
+        self.deltaY = forwardVector.y
+        print(forwardVector.x)
+        print(forwardVector.y)
+
     def move(self,events,screenMaxX,screenMaxY):
         # Input Handling
+        shouldMoveForward = False
         for event in events:
-            print(event)
-            print(userevents.ROTCOUNTERCWEVENT)
             if event.type == userevents.ROTCOUNTERCWEVENT:
                 self.deltaRot += -0.75
             if event.type == userevents.ROTCWEVENT:
                 self.deltaRot += 0.75
             if event.type == userevents.MOVEFORWARDEVENT:
-                doNothing = 1
+                shouldMoveForward = True
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
             self.posX += self.deltaX
@@ -40,11 +52,16 @@ class Boat:
         if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
             self.posY += self.deltaY
 
-        # Rotation
         falloff = 0.9
-        self.deltaRot *= falloff
+        self.deltaX *= falloff
+        self.deltaY *= falloff
+
+        # Rotation
+        rotFalloff = 0.9
+        self.deltaRot *= rotFalloff
         if self.deltaRot < 0.01 and self.deltaRot > -0.01:
             self.deltaRot = 0
         if self.deltaRot != 0:
             self.rot += self.deltaRot
-            print(self.rot)
+        if shouldMoveForward:
+            self.moveForward()
