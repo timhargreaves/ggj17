@@ -10,8 +10,8 @@ class Boat:
 
     # Unique
     def __init__(self):
-        self.posX = 100
-        self.posY = 100
+        self.posX = 400
+        self.posY = 200
         self.deltaX = 0
         self.deltaY = 0
         self.rot = 0
@@ -25,13 +25,13 @@ class Boat:
         sin = math.sin(radAngle)
         cos = math.cos(radAngle)
 
-        referenceVector = pygame.math.Vector2(-1, 0)
+        referenceVector = pygame.math.Vector2(0, -1)
         forwardVector = pygame.math.Vector2(referenceVector.x * cos - referenceVector.y * sin, referenceVector.x * cos + referenceVector.y * cos)
         self.deltaX = forwardVector.x
         self.deltaY = forwardVector.y
 
-        #print("x: " + str(self.posX) + " y: " + str(self.posY))
-        #print("dx: " + str(forwardVector.x) + " dy: " + str(forwardVector.y))
+        print("x: " + str(self.posX) + " y: " + str(self.posY))
+        print("dx: " + str(forwardVector.x) + " dy: " + str(forwardVector.y))
 
 
     def move(self,events,screenMaxX,screenMaxY):
@@ -46,11 +46,11 @@ class Boat:
                 shouldMoveForward = True
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
-            self.posX += self.deltaX
+            self.posX -= self.deltaX
         if self.deltaY < 0 and self.posY + self.deltaY > 0:
             self.posY += self.deltaY
         if self.deltaX > 0 and self.posX + self.imageWidth + self.deltaX < screenMaxX:
-            self.posX += self.deltaX
+            self.posX -= self.deltaX
         if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
             self.posY += self.deltaY
 
@@ -69,6 +69,6 @@ class Boat:
                 self.rot -= 360
             if self.rot < 0:
                 self.rot += 360
-            print(self.rot)
+#            print(self.rot)
         if shouldMoveForward:
             self.moveForward()
