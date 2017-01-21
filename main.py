@@ -8,6 +8,13 @@ pygame.display.set_caption('Main Window')
 clock = pygame.time.Clock()
 
 crashed = False
+backgroundImage = pygame.image.load('assets/background.png')
+
+def background(x,y):
+    gameDisplay.blit(backgroundImage, (x,y))
+
+x = 0
+y = 0
 
 while not crashed:
     for event in pygame.event.get():
@@ -15,6 +22,8 @@ while not crashed:
             crashed = True
 
         print(event)
+
+    background(x,y)
 
     pygame.display.update()
     clock.tick(60)
