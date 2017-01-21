@@ -1,4 +1,5 @@
 import pygame
+import userevents
 
 class Boat:
     # Shared
@@ -18,26 +19,15 @@ class Boat:
     def draw(self,gameDisplay):
         gameDisplay.blit(pygame.transform.rotate(self.boatImage,self.rot), (self.posX,self.posY))
 
-    def move(self,event,screenMaxX,screenMaxY):
+    def move(self,events,screenMaxX,screenMaxY):
         # Input Handling
-        if event.type == pygame.KEYDOWN:
-            print("boat.move")
-            print(event)
-
-            if event.key == pygame.K_LEFT:
+        for event in events:
+            if event == userevents.ROTCOUNTERCWEVENT:
                 self.deltaRot += -0.75
-            elif event.key == pygame.K_RIGHT:
+            if event == userevents.ROTCWEVENT:
                 self.deltaRot += 0.75
-#            elif event.key == pygame.K_UP:
-#                self.deltaY = -5
-#            elif event.key == pygame.K_DOWN:
-#                self.deltaY = 5
-#        if event.type == pygame.KEYUP:
-#            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-#                self.deltaX = 0
-#            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-#                self.deltaY = 0
-
+            if event == userevents.MOVEFORWARDEVENT:
+                doNothing = 1
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
             self.posX += self.deltaX

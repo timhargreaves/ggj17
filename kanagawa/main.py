@@ -1,5 +1,6 @@
 import pygame
 import boat
+import inputhandler
 
 
 # System Vars and Setup
@@ -24,23 +25,25 @@ def background(x,y):
 
 global thisBoat
 thisBoat = boat.Boat()
-#global boaty
-boat.posX = (display_width * 0.5)
-boat.posY = (display_height * 0.5)
+
+global inputHandler
+inputHandler = inputhandler.InputHandler()
 
 # Main Game Loop
 def game_loop():
     gameExit = False
 
     while not gameExit:
+        events = pygame.event.get()
         # End State
-        for event in pygame.event.get():
+        for event in events:
             if event.type == pygame.QUIT:
                 gameExit = True
 
 #            print(event)
-
-        thisBoat.move(event,display_width,display_height)
+        inputHandler.handleInput(events)
+        
+        thisBoat.move(pygame.event.get(),display_width,display_height)
 
         # Draw Static Elements
         background(0,0)
