@@ -43,13 +43,20 @@ while not crashed:
             boatx_delta = -5
         elif event.key == pygame.K_RIGHT:
             boatx_delta = 5
+        elif event.key == pygame.K_UP:
+            boaty_delta = -5
+        elif event.key == pygame.K_DOWN:
+            boaty_delta = 5
     if event.type == pygame.KEYUP:
         if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
             boatx_delta = 0
+        elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+            boaty_delta = 0
 
     # Update Elements
 
     boatx += boatx_delta
+    boaty += boaty_delta
 
     # Draw Static Elements
     background(0,0)
