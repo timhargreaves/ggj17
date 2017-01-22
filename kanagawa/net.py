@@ -54,12 +54,12 @@ class Net(pygame.sprite.Sprite):
         #self.deltaRot = 0
 
     def respawn(self, spawnx, spawny,spawnUnitDirectionVector, event):
-        if self.timeToLive < 0:
+        if self.timeToLive <= 0:
             self.timeToLive = 1500
             resultant = self.getSpawnPosition(spawnx, spawny,spawnUnitDirectionVector, event)
             self.posX = resultant.x
             self.posY = resultant.y
-
+            print("new pos: " + str(resultant))
             self.rect.x = self.posX
             self.rect.y = self.posY
             self.alive = True
