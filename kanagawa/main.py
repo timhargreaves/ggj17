@@ -45,6 +45,9 @@ def game_loop():
 
     gameExit = False
     while not gameExit:
+
+        deltaTime = clock.get_time()
+
         events = pygame.event.get(pygame.QUIT)
         # End State
         for event in events:
@@ -57,7 +60,7 @@ def game_loop():
         fish.update()
 
         boatMovementEvents = (userevents.ROTCOUNTERCWEVENT, userevents.ROTCWEVENT, userevents.MOVEFORWARDEVENT)
-        playerBoat.move(pygame.event.get(boatMovementEvents),display_width,display_height)
+        playerBoat.move(pygame.event.get(boatMovementEvents),deltaTime,display_width,display_height)
 
         events = pygame.event.get((userevents.SPAWNLEFTNETEVENT, userevents.SPAWNRIGHTNETEVENT))
         for event in events:

@@ -8,10 +8,13 @@ class Boat:
     imageWidth = 50
     imageHeight = 100
 
+    maxSpeed = 4.5
+
     # Unique
     def __init__(self):
         self.posX = 400
         self.posY = 200
+        self.velocity = 0
         self.deltaX = 0
         self.deltaY = 0
         self.rot = 0
@@ -20,21 +23,18 @@ class Boat:
     def draw(self,gameDisplay):
         gameDisplay.blit(pygame.transform.rotate(self.imageAsset,self.rot), (self.posX,self.posY))
 
-    def moveForward(self):
+    def getForwardVector(self):
         radAngle = math.radians(self.rot)
         sin = math.sin(radAngle)
         cos = math.cos(radAngle)
 
+        # Vector.Up
         referenceVector = pygame.math.Vector2(0, 1)
-        forwardVector = pygame.math.Vector2(referenceVector.x * cos - referenceVector.y * sin, referenceVector.x * cos + referenceVector.y * cos)
-        self.deltaX = forwardVector.x
-        self.deltaY = forwardVector.y
-
-        print("x: " + str(self.posX) + " y: " + str(self.posY))
-        print("dx: " + str(forwardVector.x) + " dy: " + str(forwardVector.y))
+        return pygame.math.Vector2(referenceVector.x * cos - referenceVector.y * sin, referenceVector.x * cos + referenceVector.y * cos)
 
 
-    def move(self,events,screenMaxX,screenMaxY):
+
+    def move(self,events,deltaTime,screenMaxX,screenMaxY):
         # Input Handling
         shouldMoveForward = False
         for event in events:
@@ -44,6 +44,34 @@ class Boat:
                 self.deltaRot += -0.25
             if event.type == userevents.MOVEFORWARDEVENT:
                 shouldMoveForward = True
+
+        acceleration = 10
+        dragFactor = 5
+        # Fudgy "feel" tuning
+#        if self.velocity < 1:
+#            dragFactor *= 0.6
+#        elif self.velocity < 3:
+#            dragFactor *= 0.4
+#        print(str(dragFactor))
+
+        # Translation
+        if shouldMoveForward:
+            self.velocity += acceleration * deltaTime / 1000
+
+        if self.velocity > 0:
+            self.velocity -= dragFactor * deltaTime / 1000
+        else:
+            self.velocity = 0
+
+        self.velocity = min(self.velocity, self.maxSpeed)
+
+        forwardVector = self.getForwardVector()
+        deltaVector = forwardVector * self.velocity
+        self.deltaX = deltaVector.x
+        self.deltaY = deltaVector.y
+
+        print(str(self.velocity))
+
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
             self.posX += self.deltaX
@@ -53,10 +81,6 @@ class Boat:
             self.posX += self.deltaX
         if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
             self.posY -= self.deltaY
-
-        falloff = 0.9
-        self.deltaX *= falloff
-        self.deltaY *= falloff
 
         # Rotation
         rotFalloff = 0.9
@@ -70,5 +94,3 @@ class Boat:
             if self.rot < 0:
                 self.rot += 360
 #            print(self.rot)
-        if shouldMoveForward:
-            self.moveForward()
