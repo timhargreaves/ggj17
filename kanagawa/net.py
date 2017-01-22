@@ -12,14 +12,15 @@ class Net:
 
     # Unique
     def __init__(self, spawnx, spawny,spawnUnitDirectionVector):
-        normalVector = pygame.math.Vector2(-spawnUnitDirectionVector.y, spawnUnitDirectionVector.x)
-        normalVector += pygame.math.Vector2(spawnx - 50, spawny)
-        self.posX = normalVector.x
-        #normalVector *= 1.5
+        distance = 125
+        up = pygame.math.Vector2(0, 1)
+        angle = spawnUnitDirectionVector.angle_to(up)
+        leftVector = up.rotate(angle + 90)
+        resultant = pygame.math.Vector2(spawnx, spawny) + (leftVector * distance)
 
-        #print(str(self.posX))
-        self.posY = normalVector.y
-        print("Created leftNet at: " + str(normalVector.x) + ", " + str(normalVector.y))
+        self.posX = resultant.x
+        self.posY = resultant.y
+        print("Created leftNet at: " + str(resultant.x) + ", " + str(resultant.y))
 
         self.alive = True
         #self.deltaX = 0
