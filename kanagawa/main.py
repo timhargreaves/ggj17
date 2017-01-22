@@ -76,20 +76,15 @@ def game_loop():
 
         leftNet.update(deltaTime)
         fishHitList += pygame.sprite.spritecollide(leftNet,fishGroupSingle,True,pygame.sprite.collide_rect)
-            #leftNet.tombstone()
-            #leftNet = None
 
         rightNet.update(deltaTime)
         fishHitList += pygame.sprite.spritecollide(rightNet,fishGroupSingle,True,pygame.sprite.collide_rect)
-            #rightNet.tombstone()
-            #rightNet = None
-
-
 
         for fishHit in fishHitList:
             print("adding score")
             score += 1
             spawnedFish.respawn()
+            fishGroupSingle.add(spawnedFish)
             #print("sprite:" + str(spawnedFish.rect))
 
         #print("loop")
