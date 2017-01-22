@@ -68,7 +68,7 @@ class Boat:
         forwardVector = self.getForwardVector()
         deltaVector = forwardVector * self.velocity
         self.deltaX = deltaVector.x
-        self.deltaY = deltaVector.y
+        self.deltaY = -deltaVector.y
 
         print(str(self.velocity))
 
@@ -76,11 +76,11 @@ class Boat:
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
             self.posX += self.deltaX
         if self.deltaY < 0 and self.posY + self.deltaY > 0:
-            self.posY -= self.deltaY
+            self.posY += self.deltaY
         if self.deltaX > 0 and self.posX + self.imageWidth + self.deltaX < screenMaxX:
             self.posX += self.deltaX
         if self.deltaY > 0 and self.posY + self.imageHeight + self.deltaY < screenMaxY:
-            self.posY -= self.deltaY
+            self.posY += self.deltaY
 
         # Rotation
         rotFalloff = 0.9
