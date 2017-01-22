@@ -26,8 +26,8 @@ def background(x,y):
 # Globals
 playerBoat = boat.Boat()
 spawnedFish = fish.Fish()
-leftNet = None
-rightNet = None
+leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), None)
+rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), None)
 score = 0
 
 inputHandler = inputhandler.InputHandler()
@@ -68,20 +68,19 @@ def game_loop():
         events = pygame.event.get((userevents.SPAWNLEFTNETEVENT, userevents.SPAWNRIGHTNETEVENT))
         for event in events:
             if event.type == userevents.SPAWNLEFTNETEVENT:
-                leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
+                leftNet.respawn(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
             if event.type == userevents.SPAWNRIGHTNETEVENT:
-                rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
+                rightNet.respawn(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
 
         fishHitList = list()
-        if leftNet is not None:
-            leftNet.update(deltaTime)
-            fishHitList += pygame.sprite.spritecollide(leftNet,fishGroupSingle,True,pygame.sprite.collide_rect)
+
+        leftNet.update(deltaTime)
+        fishHitList += pygame.sprite.spritecollide(leftNet,fishGroupSingle,True,pygame.sprite.collide_rect)
             #leftNet.tombstone()
             #leftNet = None
 
-        if rightNet is not None:
-            rightNet.update(deltaTime)
-            fishHitList += pygame.sprite.spritecollide(rightNet,fishGroupSingle,True,pygame.sprite.collide_rect)
+        rightNet.update(deltaTime)
+        fishHitList += pygame.sprite.spritecollide(rightNet,fishGroupSingle,True,pygame.sprite.collide_rect)
             #rightNet.tombstone()
             #rightNet = None
 
@@ -91,8 +90,7 @@ def game_loop():
             print("adding score")
             score += 1
             spawnedFish.respawn()
-            print("sprite:" + str(spawnedFish.rect))
-            fishHitList = list()
+            #print("sprite:" + str(spawnedFish.rect))
 
         #print("loop")
         #print("score: " + str(score))
@@ -103,10 +101,9 @@ def game_loop():
         # Draw Dynamic Elements
         spawnedFish.draw(gameDisplay)
         playerBoat.draw(gameDisplay)
-        if leftNet is not None:
-            leftNet.draw(gameDisplay)
-        if rightNet is not None:
-            rightNet.draw(gameDisplay)
+
+        leftNet.draw(gameDisplay)
+        rightNet.draw(gameDisplay)
 
         # System Update
         pygame.display.update()
