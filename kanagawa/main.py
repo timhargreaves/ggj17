@@ -3,6 +3,7 @@ import boat
 import fish
 import net
 import inputhandler
+import userevents
 
 
 # System Vars and Setup
@@ -44,22 +45,25 @@ def game_loop():
 
     gameExit = False
     while not gameExit:
-        events = pygame.event.get()
+        events = pygame.event.get(pygame.QUIT)
         # End State
         for event in events:
             if event.type == pygame.QUIT:
                 gameExit = True
 
 #            print(event)
-        inputHandler.handleInput(events)
+        inputHandler.handleInput(pygame.event.get((pygame.KEYDOWN,pygame.KEYUP)))
 
         fish.update()
 
-        playerBoat.move(pygame.event.get(),display_width,display_height)
+        boatMovementEvents = (userevents.ROTCOUNTERCWEVENT, userevents.ROTCWEVENT, userevents.MOVEFORWARDEVENT)
+        playerBoat.move(pygame.event.get(boatMovementEvents),display_width,display_height)
 
-        events = pygame.event.get()
+        events = pygame.event.get((userevents.SPAWNLEFTNETEVENT, userevents.SPAWNRIGHTNETEVENT))
         for event in events:
+            #print(event)
             if event.type == userevents.SPAWNLEFTNETEVENT:
+                print("Creating leftNet at: " + str(playerBoat.posX) + ", " + str(playerBoat.posY))
                 leftNet = net.Net(playerBoat.posX, playerBoat.posY)
 
         if leftNet is not None:
@@ -71,6 +75,7 @@ def game_loop():
         # Draw Dynamic Elements
         playerBoat.draw(gameDisplay)
         fish.draw(gameDisplay)
+        leftNet.draw(gameDisplay)
 
         # System Update
         pygame.display.update()
