@@ -27,6 +27,8 @@ class Net(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         # Collision
+        self.rect.x = self.posX
+        self.rect.y = self.posY
         self.mask = pygame.mask.from_surface(self.image)
 
         # State
@@ -48,12 +50,14 @@ class Net(pygame.sprite.Sprite):
     def draw(self,gameDisplay):
         if self.alive:
             gameDisplay.blit(self.image, (self.posX,self.posY))
+        pygame.draw.rect(gameDisplay, (255, 33, 33), self.rect, 3)
+
 
     def update(self,deltaTime):
         if self.alive:
             if self.timeToLive > 0:
                 self.timeToLive -= deltaTime
             if self.timeToLive < 0:
-                self.alive = False
+                self.tombstone()
         # Update mask after all movement
-        self.mask = pygame.mask.from_surface(self.image)
+        #self.mask = pygame.mask.from_surface(self.image)

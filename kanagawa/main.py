@@ -90,12 +90,11 @@ def game_loop():
         for fishHit in fishHitList:
             print("adding score")
             score += 1
-            spawnedFish = fish.Fish()
-            fishGroupSingle = pygame.sprite.GroupSingle(spawnedFish)
+            spawnedFish.respawn()
             print("sprite:" + str(spawnedFish.rect))
             fishHitList = list()
 
-        print("loop")
+        #print("loop")
         #print("score: " + str(score))
 
         # Draw Static Elements
