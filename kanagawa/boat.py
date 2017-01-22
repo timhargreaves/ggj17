@@ -23,7 +23,7 @@ class Boat:
     def draw(self,gameDisplay):
         gameDisplay.blit(pygame.transform.rotate(self.imageAsset,self.rot), (self.posX,self.posY))
 
-    def getForwardVector(self):
+    def getForwardUnitVector(self):
         radAngle = math.radians(self.rot)
         sin = math.sin(radAngle)
         cos = math.cos(radAngle)
@@ -65,12 +65,12 @@ class Boat:
 
         self.velocity = min(self.velocity, self.maxSpeed)
 
-        forwardVector = self.getForwardVector()
+        forwardVector = self.getForwardUnitVector()
         deltaVector = forwardVector * self.velocity
         self.deltaX = deltaVector.x
         self.deltaY = -deltaVector.y
 
-        print(str(self.velocity))
+        #print(str(self.velocity))
 
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:

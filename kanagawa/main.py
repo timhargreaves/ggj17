@@ -31,8 +31,8 @@ playerBoat = boat.Boat()
 
 fish = fish.Fish()
 
-leftNet = net.Net(-100,-100)
-rightNet = net.Net(-100,-100)
+leftNet = None
+rightNet = None
 
 
 global inputHandler
@@ -67,7 +67,7 @@ def game_loop():
             #print(event)
             if event.type == userevents.SPAWNLEFTNETEVENT:
                 print("Creating leftNet at: " + str(playerBoat.posX) + ", " + str(playerBoat.posY))
-                leftNet = net.Net(playerBoat.posX, playerBoat.posY)
+                leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector())
 
         if leftNet is not None:
             leftNet.update()
@@ -78,7 +78,8 @@ def game_loop():
         # Draw Dynamic Elements
         playerBoat.draw(gameDisplay)
         fish.draw(gameDisplay)
-        leftNet.draw(gameDisplay)
+        if leftNet is not None:
+            leftNet.draw(gameDisplay)
 
         # System Update
         pygame.display.update()

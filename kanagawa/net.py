@@ -11,9 +11,16 @@ class Net:
     alive = False
 
     # Unique
-    def __init__(self, spawnx, spawny):
-        self.posX = spawnx
-        self.posY = spawny
+    def __init__(self, spawnx, spawny,spawnUnitDirectionVector):
+        normalVector = pygame.math.Vector2(-spawnUnitDirectionVector.y, spawnUnitDirectionVector.x)
+        normalVector += pygame.math.Vector2(spawnx - 50, spawny)
+        self.posX = normalVector.x
+        #normalVector *= 1.5
+
+        #print(str(self.posX))
+        self.posY = normalVector.y
+        print("Created leftNet at: " + str(normalVector.x) + ", " + str(normalVector.y))
+
         self.alive = True
         #self.deltaX = 0
         #self.deltaY = 0
