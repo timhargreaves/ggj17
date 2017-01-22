@@ -35,12 +35,19 @@ wavefollow = wave.Wave('assets/wavefollow.png')
 wavefollow.velocity = -30
 wavefollow.acceleration = -20
 wavefollow.countDown = 1
-wavefollow.image
 score = 0
 
+# Input
 inputHandler = inputhandler.InputHandler()
 
+# Collision
 fishGroupSingle = pygame.sprite.GroupSingle(spawnedFish)
+
+# Audio
+pygame.mixer.init(44100, -16, 2)
+pygame.mixer.music.load('assets/bgm1.ogg')
+pygame.mixer.music.play(-1) # Loop
+playingBGM1 = True
 
 # Main Game Loop
 def game_loop():
@@ -48,6 +55,7 @@ def game_loop():
     global score
     global inputHandler
     global fishGroupSingle
+    global playingBGM1
 
     gameExit = False
     while not gameExit:
@@ -96,6 +104,14 @@ def game_loop():
             #print("sprite:" + str(spawnedFish.rect))
 
         mainwave.update(deltaTime, display_width, display_height)
+
+        events = pygame.event.get(userevents.BGMTWOEVENT)
+        for event in events:
+            if playingBGM1 == True and event.type == userevents.BGMTWOEVENT:
+                print('switching to bgm2')
+                pygame.mixer.music.load('assets/bgm2.ogg')
+                pygame.mixer.music.play(1)
+                playingBGM1 = False
         if mainwave.rect.y < 5:
             wavefollow.update(deltaTime, display_width, display_height)
         #print("loop")
