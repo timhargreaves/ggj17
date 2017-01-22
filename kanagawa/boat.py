@@ -25,6 +25,12 @@ class Boat(pygame.sprite.Sprite):
         # Collision
         self.mask = pygame.mask.from_surface(self.image)
 
+        # Audio
+        self.sound = pygame.mixer.Sound('assets/row.wav')
+        self.soundPlaying = False
+        self.soundCooldown = 0
+
+
     def draw(self,gameDisplay):
         gameDisplay.blit(pygame.transform.rotate(self.image,self.rot), (self.posX,self.posY))
 
@@ -99,5 +105,20 @@ class Boat(pygame.sprite.Sprite):
             if self.rot < 0:
                 self.rot += 360
 
+        #print ("cooldown: " + str(self.soundCooldown))
+        if self.soundCooldown <= 0:
+            self.soundPlaying = False
+        else:
+            self.soundPlaying = True
+            self.soundCooldown -= deltaTime
+
+        if not self.soundPlaying:
+            if shouldMoveForward:
+                self.sound.play()
+                self.soundPlaying = True
+                self.soundCooldown = 6000
+
+
+
         # Update mask after all movement
-        self.mask = pygame.mask.from_surface(self.image)
+        #self.mask = pygame.mask.from_surface(self.image)

@@ -25,14 +25,22 @@ class Wave(pygame.sprite.Sprite):
 
         # State
         self.alive = False
-        self.countDown = 1000
+        self.countDown = 30000
+
+        # Audio
+        self.sound = pygame.mixer.Sound('assets/wave.wav')
+        self.soundPlaying = False
+        self.soundCooldown = 5000
 
     def draw(self,gameDisplay):
         gameDisplay.blit(self.image, self.rect)
 
     def update(self,deltaTime,screenMaxX,screenMaxY):
         if self.countDown > 0:
-            self.countDown -= 60
+            self.countDown -= deltaTime
+            if self.countDown < 10000:
+                userEvent = pygame.event.Event(userevents.BGMTWOEVENT)
+                pygame.event.post(userEvent)
         else:
             self.velocity += self.acceleration * deltaTime / 1000
             self.acceleration *= 1.005
@@ -40,3 +48,11 @@ class Wave(pygame.sprite.Sprite):
         self.rect.x = self.posX
         self.rect.y = self.posY + self.velocity
         self.rect.y = max(self.rect.y, 0)
+        if not self.soundPlaying and self.countDown <= 0 and self.countDown >= -15000:
+            self.sound.play()
+            self.soundPlaying = True
+            self.soundCooldDown = 5000
+        else:
+            self.soundCooldown -= deltaTime
+        if self.soundCooldown <= 0:
+            self.soundPlaying = False
