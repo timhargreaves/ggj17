@@ -129,7 +129,6 @@ def game_loop():
 
         mainwave.draw(gameDisplay)
         wavefollow.draw(gameDisplay)
-
         # System Update
         pygame.display.update()
         clock.tick(60)
@@ -138,5 +137,6 @@ def game_loop():
 game_loop()
 
 # System Quit
+pygame.mixer.quit()
 pygame.quit()
 quit()
