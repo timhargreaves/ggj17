@@ -24,7 +24,6 @@ class Net:
 
         self.posX = resultant.x
         self.posY = resultant.y
-        print("Created leftNet at: " + str(resultant.x) + ", " + str(resultant.y))
 
         self.alive = True
         #self.deltaX = 0

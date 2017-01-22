@@ -44,19 +44,7 @@ class InputHandler:
             userEvent = pygame.event.Event(userevents.SPAWNLEFTNETEVENT)
             pygame.event.post(userEvent)
             self.spawnLeftNet = False
-            print("Posted SPAWNLEFTNETEVENT")
         if self.spawnRightNet:
             userEvent = pygame.event.Event(userevents.SPAWNRIGHTNETEVENT)
             pygame.event.post(userEvent)
             self.spawnRightNet = False
-            print("Posted SPAWNRIGHTNETEVENT")
-
-#            elif event.key == pygame.K_UP:
-#                self.deltaY = -5
-#            elif event.key == pygame.K_DOWN:
-#                self.deltaY = 5
-#        if event.type == pygame.KEYUP:
-#            if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
-#                self.deltaX = 0
-#            elif event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-#                self.deltaY = 0

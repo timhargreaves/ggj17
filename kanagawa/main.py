@@ -64,7 +64,6 @@ def game_loop():
 
         events = pygame.event.get((userevents.SPAWNLEFTNETEVENT, userevents.SPAWNRIGHTNETEVENT))
         for event in events:
-            #print(event)
             if event.type == userevents.SPAWNLEFTNETEVENT:
                 leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
             if event.type == userevents.SPAWNRIGHTNETEVENT:

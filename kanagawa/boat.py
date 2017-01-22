@@ -70,8 +70,6 @@ class Boat:
         self.deltaX = deltaVector.x
         self.deltaY = -deltaVector.y
 
-        #print(str(self.velocity))
-
         # Collision Detection - Window borders
         if self.deltaX < 0 and self.posX + self.deltaX > 0:
             self.posX += self.deltaX
@@ -93,4 +91,3 @@ class Boat:
                 self.rot -= 360
             if self.rot < 0:
                 self.rot += 360
-#            print(self.rot)
