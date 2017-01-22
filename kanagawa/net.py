@@ -39,12 +39,21 @@ class Net(pygame.sprite.Sprite):
         #self.rot = 0
         #self.deltaRot = 0
 
+    def tombstone(self):
+        self.alive = False
+        self.image = None
+        self.mask = None
+        self.Rect = None
+
     def draw(self,gameDisplay):
         if self.alive:
             gameDisplay.blit(self.image, (self.posX,self.posY))
 
     def update(self,deltaTime):
-        if self.timeToLive > 0:
-            self.timeToLive -= deltaTime
-        if self.timeToLive < 0:
-            self.alive = False
+        if self.alive:
+            if self.timeToLive > 0:
+                self.timeToLive -= deltaTime
+            if self.timeToLive < 0:
+                self.alive = False
+        # Update mask after all movement
+        self.mask = pygame.mask.from_surface(self.image)

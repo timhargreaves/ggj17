@@ -25,16 +25,21 @@ def background(x,y):
 
 # Globals
 playerBoat = boat.Boat()
-fish = fish.Fish()
+spawnedFish = fish.Fish()
 leftNet = None
 rightNet = None
+score = 0
 
 inputHandler = inputhandler.InputHandler()
 
+fishGroupSingle = pygame.sprite.GroupSingle(spawnedFish)
+
 # Main Game Loop
 def game_loop():
-    global playerBoat, fish, leftNet, rightNet
+    global playerBoat, spawnedFish, leftNet, rightNet
+    global score
     global inputHandler
+    global fishGroupSingle
 
     gameExit = False
     while not gameExit:
@@ -49,7 +54,11 @@ def game_loop():
         inputHandler.handleInput(pygame.event.get((pygame.KEYDOWN,pygame.KEYUP)))
 
         # Fish
-        fish.update()
+        spawnedFish.update()
+
+        #if leftNet != None:
+    #        print("fish: " + str(spawnedFish.mask.overlap_area(leftNet.mask, (0,0))))
+
 
         # Boat
         boatMovementEvents = (userevents.ROTCOUNTERCWEVENT, userevents.ROTCWEVENT, userevents.MOVEFORWARDEVENT)
@@ -62,16 +71,38 @@ def game_loop():
                 leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
             if event.type == userevents.SPAWNRIGHTNETEVENT:
                 rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
+
+        fishHitList = list()
         if leftNet is not None:
             leftNet.update(deltaTime)
+            fishHitList += pygame.sprite.spritecollide(leftNet,fishGroupSingle,True,pygame.sprite.collide_rect)
+            #leftNet.tombstone()
+            #leftNet = None
+
         if rightNet is not None:
             rightNet.update(deltaTime)
+            fishHitList += pygame.sprite.spritecollide(rightNet,fishGroupSingle,True,pygame.sprite.collide_rect)
+            #rightNet.tombstone()
+            #rightNet = None
+
+
+
+        for fishHit in fishHitList:
+            print("adding score")
+            score += 1
+            spawnedFish = fish.Fish()
+            fishGroupSingle = pygame.sprite.GroupSingle(spawnedFish)
+            print("sprite:" + str(spawnedFish.rect))
+            fishHitList = list()
+
+        print("loop")
+        #print("score: " + str(score))
 
         # Draw Static Elements
         background(0,0)
 
         # Draw Dynamic Elements
-        fish.draw(gameDisplay)
+        spawnedFish.draw(gameDisplay)
         playerBoat.draw(gameDisplay)
         if leftNet is not None:
             leftNet.draw(gameDisplay)
