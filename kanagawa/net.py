@@ -16,7 +16,7 @@ class Net:
         if event.type == userevents.SPAWNRIGHTNETEVENT:
             offsetAngle *= -1
 
-        distance = 125
+        distance = 100
         up = pygame.math.Vector2(0, 1)
         angle = spawnUnitDirectionVector.angle_to(up)
         sideVector = up.rotate(angle + offsetAngle)
