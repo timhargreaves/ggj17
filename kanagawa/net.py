@@ -11,12 +11,16 @@ class Net:
     alive = False
 
     # Unique
-    def __init__(self, spawnx, spawny,spawnUnitDirectionVector):
+    def __init__(self, spawnx, spawny,spawnUnitDirectionVector, event):
+        offsetAngle = 90
+        if event.type == userevents.SPAWNRIGHTNETEVENT:
+            offsetAngle *= -1
+
         distance = 125
         up = pygame.math.Vector2(0, 1)
         angle = spawnUnitDirectionVector.angle_to(up)
-        leftVector = up.rotate(angle + 90)
-        resultant = pygame.math.Vector2(spawnx, spawny) + (leftVector * distance)
+        sideVector = up.rotate(angle + offsetAngle)
+        resultant = pygame.math.Vector2(spawnx, spawny) + (sideVector * distance)
 
         self.posX = resultant.x
         self.posY = resultant.y

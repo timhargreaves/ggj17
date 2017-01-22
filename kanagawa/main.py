@@ -66,11 +66,15 @@ def game_loop():
         for event in events:
             #print(event)
             if event.type == userevents.SPAWNLEFTNETEVENT:
-                print("Creating leftNet at: " + str(playerBoat.posX) + ", " + str(playerBoat.posY))
-                leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector())
+                leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
+            if event.type == userevents.SPAWNRIGHTNETEVENT:
+                rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
+
 
         if leftNet is not None:
             leftNet.update()
+        if rightNet is not None:
+            rightNet.update()
 
         # Draw Static Elements
         background(0,0)
@@ -80,6 +84,8 @@ def game_loop():
         fish.draw(gameDisplay)
         if leftNet is not None:
             leftNet.draw(gameDisplay)
+        if rightNet is not None:
+            rightNet.draw(gameDisplay)
 
         # System Update
         pygame.display.update()
