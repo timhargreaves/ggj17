@@ -11,6 +11,8 @@ class Wave(pygame.sprite.Sprite):
         # Geometry and Physics
         self.posX = 0
         self.posY = 801
+        self.velocity = 0
+        self.acceleration = 10
 
         # Graphics
         self.image = pygame.image.load('assets/wave.png')
@@ -23,9 +25,15 @@ class Wave(pygame.sprite.Sprite):
 
         # State
         self.alive = False
+        self.countDown = 1000
 
     def draw(self,gameDisplay):
         gameDisplay.blit(self.image, self.rect)
 
     def update(self,events,deltaTime,screenMaxX,screenMaxY):
-        x = 0 # do something
+        if countDown > 0:
+            countDown -= 60
+        else:
+            self.velocity += self.acceleration * deltaTime / 1000
+
+        self.rect.move_ip(0, self.posY)
