@@ -2,27 +2,32 @@ import pygame
 import userevents
 import random
 
-class Fish:
-    # Shared
-    imageAsset = pygame.image.load('assets/fish.png')
-    imageWidth = 50
-    imageHeight = 50
-    timeToLive = 5000
-    alive = False
+class Fish(pygame.sprite.Sprite):
 
-    # Unique
     def __init__(self):
+        # Call the parent class (Sprite) constructor
+        pygame.sprite.Sprite.__init__(self)
+
+        # Geometry and Physics
         self.posX = 650
         self.posY = 500
+
+        # Graphics
+        self.image = pygame.image.load('assets/fish.png')
+        self.rect = self.image.get_rect()
+
+        # Collision
+        self.mask = pygame.mask.from_surface(self.image)
+
+        # State
+        self.timeToLive = 5000
         self.alive = True
-        #self.deltaX = 0
-        #self.deltaY = 0
-        #self.rot = 0
-        #self.deltaRot = 0
+
+
 
     def draw(self,gameDisplay):
         if self.alive:
-            gameDisplay.blit(self.imageAsset, (self.posX,self.posY))
+            gameDisplay.blit(self.image, (self.posX,self.posY))
 
     def update(self):
         #if self.timeToLive > 0:
