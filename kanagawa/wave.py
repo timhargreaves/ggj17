@@ -4,18 +4,18 @@ import random
 
 class Wave(pygame.sprite.Sprite):
 
-    def __init__(self):
+    def __init__(self,imageAsset):
         # Call the parent class (Sprite) constructor
         pygame.sprite.Sprite.__init__(self)
 
         # Geometry and Physics
         self.posX = 0
-        self.posY = 801
+        self.posY = 601
         self.velocity = 0
-        self.acceleration = 10
+        self.acceleration = -10 # Inverted Y axis
 
         # Graphics
-        self.image = pygame.image.load('assets/wave.png')
+        self.image = pygame.image.load(imageAsset)
         self.rect = self.image.get_rect()
         self.rect.x = self.posX
         self.rect.y = self.posY
@@ -30,10 +30,13 @@ class Wave(pygame.sprite.Sprite):
     def draw(self,gameDisplay):
         gameDisplay.blit(self.image, self.rect)
 
-    def update(self,events,deltaTime,screenMaxX,screenMaxY):
-        if countDown > 0:
-            countDown -= 60
+    def update(self,deltaTime,screenMaxX,screenMaxY):
+        if self.countDown > 0:
+            self.countDown -= 60
         else:
             self.velocity += self.acceleration * deltaTime / 1000
+            self.acceleration *= 1.005
 
-        self.rect.move_ip(0, self.posY)
+        self.rect.x = self.posX
+        self.rect.y = self.posY + self.velocity
+        self.rect.y = max(self.rect.y, 0)

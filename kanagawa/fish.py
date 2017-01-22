@@ -40,7 +40,7 @@ class Fish(pygame.sprite.Sprite):
         if self.alive:
             gameDisplay.blit(self.image, self.rect)
             pygame.draw.rect(gameDisplay, (128, 128, 128), self.rect, 3)
-        pygame.draw.rect(gameDisplay, (33, 33, 33), self.rect, 3)
+        #pygame.draw.rect(gameDisplay, (33, 33, 33), self.rect, 3)
         #print("drawing fishrect at: " + str(self.rect))
 
 

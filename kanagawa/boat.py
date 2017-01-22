@@ -84,7 +84,8 @@ class Boat(pygame.sprite.Sprite):
         if self.deltaY > 0 and self.posY + self.image.get_height() + self.deltaY < screenMaxY:
             self.posY += self.deltaY
 
-        self.rect.move_ip(self.posX, self.posY)
+        self.rect.x = self.posX
+        self.rect.y = self.posY
 
         # Rotation
         rotFalloff = 0.9

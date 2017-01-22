@@ -67,7 +67,7 @@ class Net(pygame.sprite.Sprite):
     def draw(self,gameDisplay):
         if self.alive:
             gameDisplay.blit(self.image, (self.posX,self.posY))
-        pygame.draw.rect(gameDisplay, (255, 33, 33), self.rect, 3)
+        #pygame.draw.rect(gameDisplay, (255, 33, 33), self.rect, 3)
 
 
     def update(self,deltaTime):

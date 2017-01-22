@@ -2,8 +2,10 @@ import pygame
 import boat
 import fish
 import net
+import wave
 import inputhandler
 import userevents
+
 
 
 # System Vars and Setup
@@ -28,6 +30,12 @@ playerBoat = boat.Boat()
 spawnedFish = fish.Fish()
 leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), None)
 rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), None)
+mainwave = wave.Wave('assets/wave.png')
+wavefollow = wave.Wave('assets/wavefollow.png')
+wavefollow.velocity = -30
+wavefollow.acceleration = -20
+wavefollow.countDown = 1
+wavefollow.image
 score = 0
 
 inputHandler = inputhandler.InputHandler()
@@ -36,7 +44,7 @@ fishGroupSingle = pygame.sprite.GroupSingle(spawnedFish)
 
 # Main Game Loop
 def game_loop():
-    global playerBoat, spawnedFish, leftNet, rightNet
+    global playerBoat, spawnedFish, leftNet, rightNet, mainwave, wavefollow
     global score
     global inputHandler
     global fishGroupSingle
@@ -87,6 +95,9 @@ def game_loop():
             fishGroupSingle.add(spawnedFish)
             #print("sprite:" + str(spawnedFish.rect))
 
+        mainwave.update(deltaTime, display_width, display_height)
+        if mainwave.rect.y < 5:
+            wavefollow.update(deltaTime, display_width, display_height)
         #print("loop")
         #print("score: " + str(score))
 
@@ -99,6 +110,9 @@ def game_loop():
 
         leftNet.draw(gameDisplay)
         rightNet.draw(gameDisplay)
+
+        mainwave.draw(gameDisplay)
+        wavefollow.draw(gameDisplay)
 
         # System Update
         pygame.display.update()
