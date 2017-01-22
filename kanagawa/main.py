@@ -18,24 +18,17 @@ pygame.display.set_caption('Main Window')
 clock = pygame.time.Clock()
 
 # Asset Vars and Setup
+# Background
 backgroundImage = pygame.image.load('assets/background.png')
-boatImage = pygame.image.load('assets/boat.png')
-
 def background(x,y):
     gameDisplay.blit(backgroundImage, (x,y))
 
-
-
+# Globals
 playerBoat = boat.Boat()
-
-
 fish = fish.Fish()
-
 leftNet = None
 rightNet = None
 
-
-global inputHandler
 inputHandler = inputhandler.InputHandler()
 
 # Main Game Loop
@@ -45,42 +38,41 @@ def game_loop():
 
     gameExit = False
     while not gameExit:
-
         deltaTime = clock.get_time()
 
-        events = pygame.event.get(pygame.QUIT)
         # End State
+        events = pygame.event.get(pygame.QUIT)
         for event in events:
             if event.type == pygame.QUIT:
                 gameExit = True
 
-#            print(event)
         inputHandler.handleInput(pygame.event.get((pygame.KEYDOWN,pygame.KEYUP)))
 
+        # Fish
         fish.update()
 
+        # Boat
         boatMovementEvents = (userevents.ROTCOUNTERCWEVENT, userevents.ROTCWEVENT, userevents.MOVEFORWARDEVENT)
-        playerBoat.move(pygame.event.get(boatMovementEvents),deltaTime,display_width,display_height)
+        playerBoat.update(pygame.event.get(boatMovementEvents),deltaTime,display_width,display_height)
 
+        # Nets
         events = pygame.event.get((userevents.SPAWNLEFTNETEVENT, userevents.SPAWNRIGHTNETEVENT))
         for event in events:
             if event.type == userevents.SPAWNLEFTNETEVENT:
                 leftNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
             if event.type == userevents.SPAWNRIGHTNETEVENT:
                 rightNet = net.Net(playerBoat.posX, playerBoat.posY, playerBoat.getForwardUnitVector(), event)
-
-
         if leftNet is not None:
-            leftNet.update()
+            leftNet.update(deltaTime)
         if rightNet is not None:
-            rightNet.update()
+            rightNet.update(deltaTime)
 
         # Draw Static Elements
         background(0,0)
 
         # Draw Dynamic Elements
-        playerBoat.draw(gameDisplay)
         fish.draw(gameDisplay)
+        playerBoat.draw(gameDisplay)
         if leftNet is not None:
             leftNet.draw(gameDisplay)
         if rightNet is not None:

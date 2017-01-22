@@ -34,7 +34,7 @@ class Boat:
 
 
 
-    def move(self,events,deltaTime,screenMaxX,screenMaxY):
+    def update(self,events,deltaTime,screenMaxX,screenMaxY):
         # Input Handling
         shouldMoveForward = False
         for event in events:

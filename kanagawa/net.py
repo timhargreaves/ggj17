@@ -7,7 +7,7 @@ class Net:
     imageAsset = pygame.image.load('assets/net.png')
     imageWidth = 75
     imageHeight = 75
-    timeToLive = 1000
+    timeToLive = 1500
     alive = False
 
     # Unique
@@ -35,9 +35,8 @@ class Net:
         if self.alive:
             gameDisplay.blit(self.imageAsset, (self.posX,self.posY))
 
-    def update(self):
-        self.alive = True
-        #if self.timeToLive > 0:
-#        self.timeToLive -=60
-#        if self.timeToLive < 0:
-#            self.alive = False
+    def update(self,deltaTime):
+        if self.timeToLive > 0:
+            self.timeToLive -= deltaTime
+        if self.timeToLive < 0:
+            self.alive = False
